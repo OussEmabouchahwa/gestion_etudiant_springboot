@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Updated to Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Ajouter Client</title>
+
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #f1f5f8;
+        }
+        .special {
+            padding-top: 50px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-text {
+            color: #6c757d;
+        }
+        .navbar-dark .navbar-brand {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="." data-th-text="#{main_title}"></a>
+        </div>
+    </nav>
+
+    <div class="container special">
+        <div th:switch="${mode}"> 
+            <h2 th:case="'ajouter'">Ajout d'un nouvel client</h2>
+            <h2 th:case="'modifier'">Modification d'un client</h2>
+            <h2 th:case="*">MaJ client</h2> 
+        </div>   
+        
+        <div>
+            <form method="post" th:action="@{'/'+${mode}+'Client'}" th:object="${client}">     
+                <input type="hidden" th:field="*{id}" class="form-control"> 
+                <div class="form-group">
+                    <label for="nomInput">Nom</label> 
+                    <input type="text" th:field="*{nom}" class="form-control" id="nomInput" aria-describedby="nomHelp" placeholder="Saisir le nom"> 
+                    <small id="nomHelp" class="form-text text-muted">Merci d'écrire le nom de client.</small>
+                    <span data-th-if="${#fields.hasErrors('nom')}" data-th-text="#{nom_errorl}"></span>
+                    <span data-th-if="${#fields.hasErrors('nom')}" data-th-text="#{nom_errorv}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="adresseInput">Adresse</label> 
+                    <input type="text" th:field="*{adresse}" class="form-control" id="adresseInput" aria-describedby="adresseHelp" placeholder="Saisir l'adresse"> 
+                    <small id="adresseHelp" class="form-text text-muted">Merci d'écrire l'adresse de client.</small>
+                    <span data-th-if="${#fields.hasErrors('adresse')}" data-th-text="#{adr_error}"></span>
+                </div>
+                
+                <div class="form-group" th:switch="${mode}">
+                    <div th:case="'ajouter'">              
+                        <div class="form-group">
+                            <label for="categorieInput">Categorie</label> 
+                            <input type="number" th:field="*{categorie}" class="form-control" id="categorieInput" aria-describedby="categorieHelp" placeholder="Saisir la categorie">
+                            <small id="categorieHelp" class="form-text text-muted">Merci d'écrire la Categorie de client.</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="codeAccordInput">Code Accord</label> 
+                            <input type="text" th:field="*{codeAccord}" class="form-control" id="codeAccordInput" aria-describedby="codeAccordHelp" placeholder="Saisir le code accord"> 
+                            <small id="codeAccordHelp" class="form-text text-muted">Merci d'écrire le code accord de client.</small>
+                        </div>
+                    </div>  
+                    <div th:case="'modifier'">             
+                        <div class="form-group" data-th-if="*{codeAccord}!=null">
+                            <label for="categorieInput">Categorie</label> 
+                            <input type="number" th:field="*{categorie}" class="form-control" id="categorieInput" aria-describedby="categorieHelp" placeholder="Saisir la categorie">
+                            <small id="categorieHelp" class="form-text text-muted">Merci d'écrire la Categorie de client.</small>
+                        </div>
+                        
+                        <div class="form-group" data-th-if="*{codeAccord}!=null">
+                            <label for="codeAccordInput">Code Accord</label> 
+                            <input type="text" th:field="*{codeAccord}" class="form-control" id="codeAccordInput" aria-describedby="codeAccordHelp" placeholder="Saisir le code accord"> 
+                            <small id="codeAccordHelp" class="form-text text-muted">Merci d'écrire le code accord de client.</small>
+                        </div>
+                    </div>                          
+                </div>      
+                <div th:switch="${mode}">
+                    <button th:case="'ajouter'" type="submit" class="btn btn-primary">Créer</button>
+                    <button th:case="'modifier'" type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Updated to Bootstrap 4 scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

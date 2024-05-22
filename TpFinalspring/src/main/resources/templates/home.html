@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Updated to Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Liste des Client</title>
+
+    <script type="text/javascript">
+        function testConfirmDialog() {
+            return confirm("Voulez-vous continuer ?");
+        }
+    </script>
+
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #f1f5f8;
+        }
+        .special {
+            padding-top: 50px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .navbar-dark .navbar-brand {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="." th:text="#{main_title}"></a>
+        </div>
+    </nav>
+
+    <div class="container special">
+        <h2 class="h2" th:text="#{table_title}"></h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th th:text="#{id}"></th>
+                        <th th:text="#{name}"></th>
+                        <th th:text="#{Adr}"></th>
+                        <th th:text="#{prom}"></th>
+                        <th th:text="#{cat}"></th>
+                        <th th:text="#{code}"></th>
+                        <th th:text="#{no_c}"></th>
+                        <th>Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${clients.empty}">
+                        <td colspan="8" th:text="#{no_cli}"></td>
+                    </tr>
+                    <tr th:each="client: ${clients}">
+                        <td><span th:text="${client.id}"> ... </span></td>
+                        <td><span th:text="${client.nom}"> </span></td>
+                        <td><span th:text="${client.adresse}"> ... </span></td>
+                        <td><span th:text="${client.promo}"> ... </span></td>
+                        <td th:if="${client.promo} == 'promoteur'"><span th:text="${client.categorie}"> ... </span></td>
+                        <td th:if="${client.promo} == 'promoteur'"><span th:text="${client.code_accord}"> ... </span></td>
+                        <td th:if="${client.promo} == 'nonpromoteur'" colspan="2">client n'a ni catégorie ni code d'accord</td>
+                        <td><span th:text="${client.nombre_de_commandes}"> ... </span></td>
+                        <td>
+                            <a th:href="@{/updateClient/{id}(id=${client.id})}"><button class="btn btn-info" th:text="#{boutons_modifier}"></button></a>
+                            <a th:href="@{/deleteClient/{id}(id=${client.id})}"><button class="btn btn-danger" th:text="#{boutons_supprimer}"></button></a>
+                            <a th:href="@{/commandeClient/{id}(id=${client.id})}"><button class="btn btn-warning" th:text="#{boutons_commande}"></button></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h4><a th:href="@{/createClient}" th:text="#{add_user}"></a></h4>
+    </div>
+
+    <!-- Updated to Bootstrap 4 scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

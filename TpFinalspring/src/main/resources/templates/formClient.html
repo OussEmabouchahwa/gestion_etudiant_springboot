@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+
+<title>Ajouter Client</title>
+
+<style>
+body {
+	padding-top: 50px;
+}
+
+.special {
+	padding-top: 50px;
+}
+</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/" th:text="#{main_title}"></a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container special">
+		<div th:switch="${mode}"> 
+		  <h2 th:case="'ajouter'">Ajout d'un nouvel client</h2>
+		  <h2 th:case="'modifier'">Modification d'un client</h2>
+		  <h2 th:case="*">MaJ client</h2> 
+		</div>	
+		
+		<div>
+			<form method="post" th:action="@{'/'+${mode}+'Client'}" th:object="${client}">		
+				<input type="hidden" th:field="*{id}" class="form-control">	
+				<div class="form-group">
+					<label for="nomInput">Nom</label> 
+					<input
+						type="text" th:field="*{nom}" class="form-control" id="nomInput"
+						aria-describedby="nomHelp" placeholder="Saisir le nom"> 
+						<small id="nomHelp" class="form-text text-muted">Merci d'écrire le nom de client.</small>
+						<span th:if="${#fields.hasErrors('nom')}"  th:error="*{nom}" th:text="#{nom_errorl}"></span>
+				</div>
+				<div class="form-group">
+					<label for="salaireInput">Adresse</label> 
+					<input
+						type="text" th:field="*{adresse}" class="form-control" id="adresseInput"
+						aria-describedby="adresseHelp" placeholder="Saisir l'adresse"> <small
+						id="salaireHelp" class="form-text text-muted">Merci d'écrire l'adresse de client.</small>
+						<span th:if="${#fields.hasErrors('adresse')}" th:error="*{adresse}"  th:text="#{adr_error}"></span>
+				</div>
+				
+				
+				
+				
+				<div class="form-group" th:switch="${mode}">
+					<div th:case="'ajouter'">				
+					<div class="form-group">
+						<label for="salaireInput">Categorie</label> 
+						<input type="number" th:field="*{categorie}" class="form-control" id="salaireInput"
+	    					aria-describedby="adresseHelp" placeholder="Saisir la categorie"><small
+							id="salaireHelp" class="form-text text-muted">Merci d'écrire la Categorie  de client.</small>
+					</div>
+					
+					<div class="form-group">
+						<label for="salaireInput">Code Accord</label> 
+						<input
+							type="text" th:field="*{codeAccord}" class="form-control" id="salaireInput"
+							aria-describedby="adresseHelp" placeholder="Saisir le code d'accord"> <small
+							id="salaireHelp" class="form-text text-muted">Merci d'écrire le code_accord de client.</small>
+					</div>
+	
+						
+
+					</div>	
+					<div th:case="'modifier'">				
+						<div class="form-group" th:if="*{codeAccord}!=null" >
+							<label for="salaireInput">Categorie</label> 
+							<input type="number" th:field="*{categorie}" class="form-control" id="salaireInput"
+	    						aria-describedby="adresseHelp" placeholder="Saisir la categorie"><small
+								id="salaireHelp" class="form-text text-muted">Merci d'écrire la Categorie  de client.</small>
+						</div>
+					
+						<div class="form-group" th:if="*{codeAccord}!=null"  >
+							<label for="salaireInput">Code Accord</label> 
+							<input
+								type="text" th:field="*{codeAccord}" class="form-control" id="salaireInput"
+								aria-describedby="adresseHelp" placeholder="Saisir le code d'accord"> <small
+								id="salaireHelp" class="form-text text-muted">Merci d'écrire le code_accord de client.</small>
+						</div>
+	
+							
+
+						</div>							
+						
+
+
+					</div>	
+
+				</div>		
+				<div th:switch="${mode}">
+				<button th:case="'ajouter'" type="submit" class="btn btn-primary">Créer</button>
+				<button th:case="'modifier'" type="submit" class="btn btn-primary">Modifier</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+</body>
+</html>
